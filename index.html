@@ -23,6 +23,10 @@
                 <div id="contenedor"></div>
             </div>
             <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                <button class="btn btn-success my-2" id="btn_copy">Copiar</button>
+                <div class="alert alert-success my-2 d-none" role="alert" id="copy_success">
+                    Información copiada!
+                </div>
                 <ol class="list-group list-group-numbered my-2" id="ol_products">
                 </ol>
             </div>
@@ -76,6 +80,8 @@
             </div>
         </div>
     </div>
+
+    <input class="d-none" id="object_text" cols="30" rows="10"></textarea>
     
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>

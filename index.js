@@ -12,7 +12,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
         marca_error = document.getElementById('marca_error'),
         cantidad_error = document.getElementById('cantidad_error'),
         ol_products = document.getElementById('ol_products'),
-        btn_delete = document.getElementById('btn_delete')
+        btn_delete = document.getElementById('btn_delete'),
+        object_text = document.getElementById('object_text'),
+        btn_copy = document.getElementById('btn_copy'),
+        copy_success = document.getElementById('copy_success')
         ;
         
     let products = [], id = '';
@@ -29,6 +32,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 </li>
             `;
         });
+
+        object_text.value = JSON.stringify(products);
     }
 
     if(localStorage.getItem('products')){
@@ -149,5 +154,17 @@ document.addEventListener("DOMContentLoaded", ()=>{
         renderProducts();
         localStorage.setItem('products', JSON.stringify(products));
         modal.hide();
+    });
+
+    btn_copy.addEventListener('click', ()=>{
+        object_text.select();
+        object_text.setSelectionRange(0, 99999);
+
+        navigator.clipboard.writeText(object_text.value);
+
+        copy_success.classList.remove('d-none');
+        setTimeout(() => {
+            copy_success.classList.add('d-none');
+        }, 1500);
     })
 });
