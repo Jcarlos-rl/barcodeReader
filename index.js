@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
         modal.hide();
     });
 
-    btn_copy.addEventListener('click', ()=>{
+    /* btn_copy.addEventListener('click', ()=>{
         object_text.select();
         object_text.setSelectionRange(0, 99999);
 
@@ -166,5 +166,5 @@ document.addEventListener("DOMContentLoaded", ()=>{
         setTimeout(() => {
             copy_success.classList.add('d-none');
         }, 1500);
-    })
+    }) */
 });
