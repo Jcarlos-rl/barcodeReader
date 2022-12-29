@@ -10,73 +10,43 @@
 </head>
 <body>
     <div class="container my-3">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Scanner</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Lista</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                <div id="contenedor"></div>
-            </div>
-            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                <button class="btn btn-success my-2" data-clipboard-action="cut" data-clipboard-target="#object_text">
-                    Copiar
-                </button>
-                <ol class="list-group list-group-numbered my-2" id="ol_products">
-                </ol>
-            </div>
+        <div class="mb-2">
+            <input id="codeBar" type="text" class="form-control" placeholder="Codigo de barras" aria-label="Recipient's username" aria-describedby="button-addon2">
         </div>
+        <div id="codeBarAlert" class="alert alert-danger d-none" role="alert">
+        </div>
+        <div id="contentProducts">
 
-        <!-- Button trigger modal -->
-        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Launch static backdrop modal
-        </button> -->
-  
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Registrar producto</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-12 my-3">
-                            <label for="codigo" class="form-label">Código</label>
-                            <input type="text" class="form-control" id="codigo">
-                            <div class="alert alert-danger my-2 d-none" role="alert" id="codigo_error">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="marca" class="form-label">Marca</label>
-                            <input type="text" class="form-control" id="marca">
-                            <div class="alert alert-danger my-2 d-none" role="alert" id="marca_error">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="cantidad" class="form-label">Cantidad</label>
-                            <input type="number" class="form-control" id="cantidad" value="1">
-                            <div class="alert alert-danger my-2 d-none" role="alert" id="cantidad_error">
-                            </div>
-                        </div>
-                        <div class="col-12 my-3">
-                            <label for="ubicacion" class="form-label">Ubicación</label>
-                            <input type="text" class="form-control" id="ubicacion">
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Registrar producto</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="row">
+                    <div class="col-4 my-2">
+                        <label for="marca" class="form-label">Marca</label>
+                        <input type="text" class="form-control" id="marca">
+                        <div class="alert alert-danger my-2 d-none" role="alert" id="marca_error">
                         </div>
                     </div>
+                    <div class="col-8 my-2">
+                        <label for="ubicacion" class="form-label">Ubicación</label>
+                        <input type="text" class="form-control" id="ubicacion">
+                    </div>
                 </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-danger d-none" id="btn_delete">Eliminar</button>
+            </div>
+            <div class="modal-footer d-flex justify-content-start">
+                <button type="button" class="btn btn-primary" id="buttonSave">Guardar</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="btn_save">Guardar</button>
-                </div>
             </div>
-            </div>
+        </div>
         </div>
     </div>
 
@@ -88,7 +58,7 @@
     <script src="https://unpkg.com/quagga@0.12.1/dist/quagga.min.js"></script>
     <script src="index.js"></script>
     <script>
-        var clipboard = new ClipboardJS('.btn');
+        var clipboard = new ClipboardJS('.btnCopy');
   
         clipboard.on('success', function (e) {
           console.info('Action:', e.action);
