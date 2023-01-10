@@ -15,9 +15,8 @@
         </div>
         <div id="codeBarAlert" class="alert alert-danger d-none" role="alert">
         </div>
-        <div id="contentProducts">
-
-        </div>
+        <ol class="list-group list-group-numbered" id="listProducts">
+        </ol>
     </div>
 
     <!-- Modal -->
@@ -45,6 +44,51 @@
             <div class="modal-footer d-flex justify-content-start">
                 <button type="button" class="btn btn-primary" id="buttonSave">Guardar</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdropUpdate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropUpdateLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropUpdateLabel">Actualizar producto</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="row">
+                    <div class="col-12 my-2">
+                        <p>
+                            <span class="fw-bold">Código: </span>
+                            <span id="codeValue"></span>
+                        </p>
+                        <p>
+                            <span class="fw-bold">Marca: </span>
+                            <span id="brandValue"></span>
+                        </p>
+                        <h5 class="text-center">Inventario</h5>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col" class="text-center">Ubicación</th>
+                                <th scope="col" class="text-center">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyInventory">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <div>
+                    <button type="button" class="btn btn-primary" id="buttonUpdate">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+                <button type="button" class="btn btn-danger" id="buttonDelete">Eliminar</button>
             </div>
         </div>
         </div>

@@ -4,7 +4,44 @@ const codeBar       = document.getElementById('codeBar'),
     modal           = new bootstrap.Modal(staticBackdrop,{
         backdrop: 'static'
     }),
-    buttonSave      = document.getElementById('buttonSave');
+    modalUpdate     = new bootstrap.Modal(staticBackdropUpdate,{
+        backdrop: 'static'
+    }),
+    buttonSave      = document.getElementById('buttonSave'),
+    marca           = document.getElementById('marca'),
+    listProducts    = document.getElementById('listProducts'),
+    codeValue       = document.getElementById('codeValue'),
+    brandValue      = document.getElementById('brandValue'),
+    tbodyInventory  = document.getElementById('tbodyInventory'),
+    buttonUpdate    = document.getElementById('buttonUpdate'),
+    buttonDelete    = document.getElementById('buttonDelete');
+
+let productos = (localStorage.getItem('inventory')) ? JSON.parse(localStorage.getItem('inventory')) : [];
+
+const renderProductsView = () =>{
+    listProducts.innerHTML = '';
+
+    productos = productos.reverse();
+    productos.forEach(element => {
+        let quantity = 0;
+        element.inventory.forEach(e =>{
+            quantity = quantity+e.quantity;
+        })
+        listProducts.innerHTML += `
+            <li class="list-group-item d-flex justify-content-between align-items-start" style="cursor:pointer;">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">${element.codeBar}</div>
+                    ${element.brand}
+                </div>
+                <span class="badge bg-primary rounded-pill">${quantity}</span>
+            </li>
+        `;
+    });
+
+    productos = productos.reverse();
+}
+
+renderProductsView();
 
 codeBar.addEventListener('keypress', (e)=>{
     if(e.key === 'Enter'){
@@ -27,3 +64,111 @@ const displayErrorAlert = (idAlert, display, message = '')=>{
         document.getElementById(idAlert).classList.add('d-none');
     }
 }
+
+buttonSave.addEventListener('click', ()=>{
+    let brandValue      = marca.value.trim(),
+        codeBarValue    = codeBar.value.trim(),
+        ubicationValue  = document.getElementById('ubicacion').value.trim();
+
+    if(brandValue === ''){
+        displayErrorAlert('marca_error', 'block', 'El campo no puede estar vacio.');
+        return;
+    }
+    displayErrorAlert('marca_error', 'none', 'El campo no puede estar vacio.');
+
+    addProduct(codeBarValue.toUpperCase(), brandValue.toUpperCase(), ubicationValue.toUpperCase());
+})
+
+const addProduct = (code, brand, ubi) =>{
+    let product = productos.find(({codeBar}) => codeBar === code);
+
+    if(product){
+        let inv = product.inventory.find(({ubication}) => ubication === ubi);
+        if(inv){
+            inv.quantity = inv.quantity+1;
+        }else{
+            product.inventory.push({
+                ubication: ubi,
+                quantity: 1
+            });
+        }
+    }else{
+        productos.push({
+            codeBar: code,
+            brand,
+            inventory:[
+                {
+                    ubication: ubi,
+                    quantity: 1
+                }
+            ]
+        });
+    }
+
+    localStorage.setItem('inventory', JSON.stringify(productos));
+    renderProductsView();
+    codeBar.value = '';
+    codeBar.focus();
+    modal.hide();
+}
+
+listProducts.addEventListener('click', (e)=>{
+    if(e.target.tagName === 'LI'){
+        const code = e.target.childNodes[1].childNodes[1].innerText,
+            product = productos.find(({codeBar}) => codeBar === code);
+
+        codeValue.innerText = product.codeBar;
+        brandValue.innerText = product.brand;
+
+        tbodyInventory.innerHTML = '';
+        product.inventory.forEach((element, i) => {
+            tbodyInventory.innerHTML += `
+                <tr>
+                    <th scope="row">${i+1}</th>
+                    <td>
+                        <input type="text" class="form-control" value="${element.ubication}">
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" value="${element.quantity}">
+                    </td>
+                </tr>
+            `;
+        });
+        modalUpdate.show();
+    }
+});
+
+buttonUpdate.addEventListener('click',()=>{
+    const code = codeValue.innerText,
+        product = productos.find(({codeBar}) => codeBar === code),
+        elements = tbodyInventory.getElementsByTagName("tr");
+
+    let inventory = [];
+
+    for(let i=0; i<elements.length; i++){
+        const element = elements[i].getElementsByTagName("td");
+        inventory.push({
+            ubication: element[0].childNodes[1].value,
+            quantity: parseInt(element[1].childNodes[1].value)
+        });
+    }
+
+    product.inventory = inventory; 
+
+    localStorage.setItem('inventory', JSON.stringify(productos));
+    renderProductsView();
+    codeBar.focus();
+    modalUpdate.hide();
+})
+
+buttonDelete.addEventListener('click', ()=>{
+    const code = codeValue.innerText,
+        index = productos.findIndex(({codeBar}) => codeBar === code);
+
+    productos.splice(index, 1);
+    
+    localStorage.setItem('inventory', JSON.stringify(productos));
+    renderProductsView();
+    codeBar.focus();
+    modalUpdate.hide();
+})
