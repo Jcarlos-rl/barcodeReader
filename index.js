@@ -14,7 +14,8 @@ const codeBar       = document.getElementById('codeBar'),
     brandValue      = document.getElementById('brandValue'),
     tbodyInventory  = document.getElementById('tbodyInventory'),
     buttonUpdate    = document.getElementById('buttonUpdate'),
-    buttonDelete    = document.getElementById('buttonDelete');
+    buttonDelete    = document.getElementById('buttonDelete'),
+    object_text     = document.getElementById('object_text');
 
 let productos = (localStorage.getItem('inventory')) ? JSON.parse(localStorage.getItem('inventory')) : [];
 
@@ -37,6 +38,8 @@ const renderProductsView = () =>{
             </li>
         `;
     });
+
+    object_text.value = JSON.stringify(productos);
 
     productos = productos.reverse();
 }
@@ -108,7 +111,7 @@ const addProduct = (code, brand, ubi) =>{
     localStorage.setItem('inventory', JSON.stringify(productos));
     renderProductsView();
     codeBar.value = '';
-    codeBar.focus();
+    setTimeout(() => { codeBar.focus(); }, 300);
     modal.hide();
 }
 
@@ -126,10 +129,10 @@ listProducts.addEventListener('click', (e)=>{
                 <tr>
                     <th scope="row">${i+1}</th>
                     <td>
-                        <input type="text" class="form-control" value="${element.ubication}">
+                        <input type="text" class="form-control" value="${element.ubication}" autocomplete="off">
                     </td>
                     <td>
-                        <input type="number" class="form-control" value="${element.quantity}">
+                        <input type="number" class="form-control" value="${element.quantity}" autocomplete="off">
                     </td>
                 </tr>
             `;
@@ -157,7 +160,7 @@ buttonUpdate.addEventListener('click',()=>{
 
     localStorage.setItem('inventory', JSON.stringify(productos));
     renderProductsView();
-    codeBar.focus();
+    setTimeout(() => { codeBar.focus(); }, 300);
     modalUpdate.hide();
 })
 
@@ -169,6 +172,6 @@ buttonDelete.addEventListener('click', ()=>{
     
     localStorage.setItem('inventory', JSON.stringify(productos));
     renderProductsView();
-    codeBar.focus();
+    setTimeout(() => { codeBar.focus(); }, 300);
     modalUpdate.hide();
 })
