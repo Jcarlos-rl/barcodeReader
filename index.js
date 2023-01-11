@@ -46,17 +46,15 @@ const renderProductsView = () =>{
 
 renderProductsView();
 
-codeBar.addEventListener('keypress', (e)=>{
-    if(e.key === 'Enter'){
-        let val = codeBar.value.trim();
-        if(val === ''){
-            displayErrorAlert('codeBarAlert', 'block', 'El campo no puede estar vacio.');
-            return;
-        }
-        displayErrorAlert('codeBarAlert', 'none', 'El campo no puede estar vacio.');
-    
-        modal.show();
+codeBar.addEventListener('change', ()=>{
+    let val = codeBar.value.trim();
+    if(val === ''){
+        displayErrorAlert('codeBarAlert', 'block', 'El campo no puede estar vacio.');
+        return;
     }
+    displayErrorAlert('codeBarAlert', 'none', 'El campo no puede estar vacio.');
+
+    modal.show();
 });
 
 const displayErrorAlert = (idAlert, display, message = '')=>{
