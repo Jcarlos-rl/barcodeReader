@@ -15,7 +15,9 @@ const codeBar       = document.getElementById('codeBar'),
     tbodyInventory  = document.getElementById('tbodyInventory'),
     buttonUpdate    = document.getElementById('buttonUpdate'),
     buttonDelete    = document.getElementById('buttonDelete'),
-    object_text     = document.getElementById('object_text');
+    object_text     = document.getElementById('object_text'),
+    cantidad        = document.getElementById('cantidad'),
+    cantidad_error  = document.getElementById('cantidad_error');
 
 let productos = (localStorage.getItem('inventory')) ? JSON.parse(localStorage.getItem('inventory')) : [];
 
@@ -69,28 +71,34 @@ const displayErrorAlert = (idAlert, display, message = '')=>{
 buttonSave.addEventListener('click', ()=>{
     let brandValue      = marca.value.trim(),
         codeBarValue    = codeBar.value.trim(),
-        ubicationValue  = document.getElementById('ubicacion').value.trim();
+        ubicationValue  = document.getElementById('ubicacion').value.trim(),
+        quantity        = +cantidad.value;
 
     if(brandValue === ''){
         displayErrorAlert('marca_error', 'block', 'El campo no puede estar vacio.');
         return;
     }
+    if(quantity < 1){
+        displayErrorAlert('cantidad_error', 'block', 'El campo no puede ser menor a 1.');
+        return;
+    }
     displayErrorAlert('marca_error', 'none', 'El campo no puede estar vacio.');
+    displayErrorAlert('cantidad_error', 'none', 'El campo no puede estar vacio.');
 
-    addProduct(codeBarValue.toUpperCase(), brandValue.toUpperCase(), ubicationValue.toUpperCase());
+    addProduct(codeBarValue.toUpperCase(), brandValue.toUpperCase(), ubicationValue.toUpperCase(), quantity);
 })
 
-const addProduct = (code, brand, ubi) =>{
+const addProduct = (code, brand, ubi, qua) =>{
     let product = productos.find(({codeBar}) => codeBar === code);
 
     if(product){
         let inv = product.inventory.find(({ubication}) => ubication === ubi);
         if(inv){
-            inv.quantity = inv.quantity+1;
+            inv.quantity = inv.quantity+qua;
         }else{
             product.inventory.push({
                 ubication: ubi,
-                quantity: 1
+                quantity: qua
             });
         }
     }else{
@@ -100,7 +108,7 @@ const addProduct = (code, brand, ubi) =>{
             inventory:[
                 {
                     ubication: ubi,
-                    quantity: 1
+                    quantity: qua
                 }
             ]
         });
